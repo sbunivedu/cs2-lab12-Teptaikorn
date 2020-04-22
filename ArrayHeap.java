@@ -19,7 +19,6 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T>{
     if (!(obj instanceof Comparable)){
       throw new NonComparableElementException("ArrayHeap");
     }
-
     if(count == tree.length){
       expandCapacity();
     }
@@ -71,7 +70,20 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T>{
    */
   public T removeMin() throws EmptyCollectionException{
     // TO BE IMPLEMENTED
-    return null;
+    T result = null;
+    if (count == 0){
+      throw new EmptyCollectionException("ArrayHeap");
+    }else if (count == 1){
+      result = tree[0];
+      tree[0] = null;
+      count = 0;
+    }else{
+      result = tree[0];
+      tree[0] = tree[count-1];
+      count--;
+      heapifyRemove();
+    }
+    return result;
   }
 
   /**
@@ -80,6 +92,31 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T>{
    */
   private void heapifyRemove(){
     // TO BE IMPLEMENTED
+    int parent = 0, left = 1, right = 2;
+    boolean done = false;
+    while(!done){
+      if (left >= count){
+        done = true;
+      }else if (right >= count){
+        if (((Comparable)tree[left]).compareTo(tree[parent]) < 0){
+          swap(parent, left);
+        }
+        done = true;
+      }else{
+        int next = right;
+        if (((Comparable)tree[left]).compareTo(tree[right]) < 0){
+          next = left;
+        }
+        if (((Comparable)tree[left]).compareTo(tree[parent]) < 0){
+          swap(parent, next);
+        }else{
+          done = true;
+        }
+        parent = next;
+        left = parent * 2 + 1;
+        right = parent * 2 + 2;
+      }
+    } 
   }
 
   /**

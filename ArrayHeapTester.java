@@ -45,6 +45,7 @@ public class ArrayHeapTester{
     System.out.println("test remove()");
     h.removeMin();
     System.out.println("expect:\t10");
+    System.out.println("got:\t"+h);
 
     System.out.println("test remove()");
     h.removeMin();
